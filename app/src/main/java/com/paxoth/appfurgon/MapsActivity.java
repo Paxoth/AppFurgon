@@ -20,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -65,6 +64,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    public ArrayList<Integer> estados = new ArrayList<Integer>();
     int rutaInicial = -1;
     int rutaFinal= 0;
 
@@ -73,6 +73,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        rellenoInicialEstados();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -80,6 +81,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(MapsActivity.this,ChildrensActivity.class);
+                in.putIntegerArrayListExtra("status",estados);
                 startActivity(in);
             }
         });
@@ -121,7 +123,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         rutas.add(new LatLng(-33.425901, -70.700127));
         //colegio
         rutas.add(new LatLng(-33.426552, -70.714080));
-
+        System.out.println("valor: "+ rutas.size());
 
 
 
@@ -143,8 +145,19 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         // Setting the position of the marker
         options.position(rutas.get(posicionInicial));
         options2.position(rutas.get(posicionFinal));
-        options.title("Posiciòn: "+String.valueOf(posicionInicial));
-        options2.title("Posiciòn: "+String.valueOf(posicionFinal));
+        if(posicionInicial==0){
+            options.title("Chofer ");
+            options2.title("Niño "+String.valueOf(posicionFinal));
+        }
+        else if (posicionFinal<rutas.size()-1){
+            options.title("Niño "+String.valueOf(posicionInicial));
+            options2.title("Niño "+String.valueOf(posicionFinal));
+        }
+        else{
+            options.title("Niño "+String.valueOf(posicionInicial));
+            options2.title("Colegio");
+        }
+
         /**
          * For the start location, the color of marker is GREEN and
          * for the end location, the color of marker is RED.
@@ -172,6 +185,15 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
 
 
+    }
+    //rellenar el arreglo en un estado incial
+    //1-> recogido
+    //2-> ausente
+    //3-> en espera
+    public void rellenoInicialEstados(){
+        for(int i= 0 ; i<20; i++ ){
+            estados.add(3);
+        }
     }
     /**
      * Manipulates the map once available.
@@ -205,59 +227,28 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
 
             @Override
             public void onMapClick(LatLng point) {
-                rutaInicial+=1;
-                rutaFinal+=1;
+                if(rutaFinal<rutas.size()-1) {
+                    rutaInicial += 1;
+                    rutaFinal += 1;
+                }else{
+
+                    System.out.println("LLEGUE AL FINAL");
+                }
+
+                /*Cambiamos el estado del estudiante a recogido*/
+                if(rutaInicial>0)
+                {
+                    estados.set(rutaInicial-1,1);
+                }
+
+
+                for (int j = 0; j< estados.size();j++){
+
+                    System.out.println("Map: estado["+Integer.toString(j)+"]:"+estados.get(j));
+                }
+
                 rutaMapa(rutaInicial,rutaFinal);
-                // Already two locations
-           /*     if (MarkerPoints.size() > 1) {
-                    MarkerPoints.clear();
-                    mMap.clear();
-                }
-                System.out.println("punto: " +point);
-                // Adding new item to the ArrayList
-                MarkerPoints.add(point);
 
-                // Creating MarkerOptions
-                MarkerOptions options = new MarkerOptions();
-
-                // Setting the position of the marker
-                options.position(point);
-
-                /**
-                 * For the start location, the color of marker is GREEN and
-                 * for the end location, the color of marker is RED.
-                 *//*
-                if (MarkerPoints.size() == 1) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (MarkerPoints.size() == 2) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-
-
-                // Add new marker to the Google Map Android API V2
-                mMap.addMarker(options);
-
-                // Checks, whether start and end locations are captured
-                if (MarkerPoints.size() >= 2) {
-                    LatLng origin = MarkerPoints.get(0);
-                    LatLng dest = MarkerPoints.get(1);
-
-                    // Getting URL to the Google Directions API
-                    String url = getUrl(origin, dest);
-                    //https://maps.googleapis.com/maps/api/directions/json?origin=-33.45032543932662,-70.69194808602333&destination=-33.45254404744828,-70.69138448685408&sensor=false
-                    String test ="https://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA";
-                    Log.d("onMapClick", url.toString());
-                    FetchUrl FetchUrl = new FetchUrl();
-
-                    // Start downloading json data from Google Directions API
-                    FetchUrl.execute(test);
-                    //FetchUrl.execute(url);
-                    //move map camera
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-                }
-
-*/
             }
         });
 
@@ -478,12 +469,20 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         }
 
         //Place current location marker
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latLng = rutas.get(0);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("Current Position");
+        markerOptions.title("Casa chofer");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+        LatLng latLng2 = rutas.get(rutas.size()-1);
+        MarkerOptions markerOptions2 = new MarkerOptions();
+        markerOptions2.position(latLng2);
+        markerOptions2.title("Colegio");
+        markerOptions2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+        mCurrLocationMarker = mMap.addMarker(markerOptions2);
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));

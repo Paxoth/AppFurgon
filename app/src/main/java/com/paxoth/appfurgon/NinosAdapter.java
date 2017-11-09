@@ -36,12 +36,11 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
             holder.nombreNino = (TextView) row.findViewById(R.id.nombreNino);
             holder.nombreApoderado = (TextView) row.findViewById(R.id.nombreApoderado);
             holder.coords = (TextView) row.findViewById(R.id.coords);
-            if(data[position].status==1){
-                row.setBackgroundResource(R.color.Presente);
-            }else if(data[position].status==2){
-                row.setBackgroundResource(R.color.Pendiente);
-            }else
-                row.setBackgroundResource(R.color.Ausente);
+            //rellenar el arreglo en un estado incial
+            //1-> recogido
+            //2-> ausente
+            //3-> en espera
+
             row.setTag(holder);
         }else {
             holder = (NinosHolder) row.getTag();
@@ -52,6 +51,15 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
         holder.nombreNino.setText(ninos.nombreNino);
         holder.nombreApoderado.setText(ninos.nombreApoderado);
         holder.coords.setText("("+String.valueOf(ninos.coords.latitude)+","+String.valueOf(ninos.coords.longitude)+")");
+        System.out.println("Adapter: estado["+position+"]: "+data[position].status);
+        if(data[position].status==1){
+            row.setBackgroundResource(R.color.Presente);
+        }else if(data[position].status==2){
+            row.setBackgroundResource(R.color.Ausente);
+        }else
+        {
+            row.setBackgroundResource(R.color.Pendiente);
+        }
         return row;
     }
 

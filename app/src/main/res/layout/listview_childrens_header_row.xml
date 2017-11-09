@@ -7,7 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Listado de Niños"
-        android:background="#C6C6C6"
-        android:textColor="#FFFFFF"
+        android:background="#d4b82d"
+        android:textColor="#080808"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:gravity="center"
         android:textSize="25sp"/>
 </LinearLayout>
