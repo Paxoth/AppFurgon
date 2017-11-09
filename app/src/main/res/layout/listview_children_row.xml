@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_weight="10">
+
+    <ImageView
+        android:id="@+id/foto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="3">
+
+        <TextView
+            android:id="@+id/nombreNino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del niño"/>
+
+        <TextView
+            android:id="@+id/nombreApoderado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NombreApoderado"/>
+
+        <TextView
+            android:id="@+id/coords"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coordenadas"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
