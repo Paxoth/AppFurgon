@@ -1,9 +1,4 @@
 package com.paxoth.appfurgon;
-
-
-/**
- * Created by adrian on 08-11-17.
- */
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -33,15 +28,14 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
             row = inflater.inflate(layoutResourceId,parent,false);
             holder = new NinosHolder();
             holder.foto = (ImageView) row.findViewById(R.id.foto);
-            holder.nombreNino = (TextView) row.findViewById(R.id.nombreNino);
-            holder.nombreApoderado = (TextView) row.findViewById(R.id.nombreApoderado);
-            holder.coords = (TextView) row.findViewById(R.id.coords);
+            holder.nombreNino = (TextView) row.findViewById(R.id.texto);
+            holder.nombreApoderado = (TextView) row.findViewById(R.id.category);
             if(data[position].status==1){
-                row.setBackgroundResource(R.color.Presente);
+                holder.status = row.findViewById(R.id.imageView);
             }else if(data[position].status==2){
-                row.setBackgroundResource(R.color.Pendiente);
+                holder.status = row.findViewById(R.id.imageView);
             }else
-                row.setBackgroundResource(R.color.Ausente);
+                holder.status = row.findViewById(R.id.imageView);
             row.setTag(holder);
         }else {
             holder = (NinosHolder) row.getTag();
@@ -51,15 +45,15 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
         holder.foto.setImageResource(ninos.foto);
         holder.nombreNino.setText(ninos.nombreNino);
         holder.nombreApoderado.setText(ninos.nombreApoderado);
-        holder.coords.setText("("+String.valueOf(ninos.coords.latitude)+","+String.valueOf(ninos.coords.longitude)+")");
+        holder.status.setImageResource(ninos.status);
         return row;
     }
 
     /*Holder nos ayuda a mantener los datos*/
     static class NinosHolder{
         ImageView foto;
+        ImageView status;
         TextView nombreNino;
         TextView nombreApoderado;
-        TextView coords;
     }
 }
