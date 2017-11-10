@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">AppFurgon</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">FurgonApp</string>
+    <string name="title_activity_maps">FurgonApp</string>
 </resources>
