@@ -1,10 +1,4 @@
 package com.paxoth.appfurgon;
-
-
-/**
- * Created by Paxoth on 08-11-17.
- * Adapter para enviar información entre activities a la ListView de niños
- */
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -34,14 +28,14 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
             row = inflater.inflate(layoutResourceId,parent,false);
             holder = new NinosHolder();
             holder.foto = (ImageView) row.findViewById(R.id.foto);
-            holder.nombreNino = (TextView) row.findViewById(R.id.nombreNino);
-            holder.nombreApoderado = (TextView) row.findViewById(R.id.nombreApoderado);
-            holder.coords = (TextView) row.findViewById(R.id.coords);
-            //rellenar el arreglo en un estado incial
-            //1-> recogido
-            //2-> ausente
-            //3-> en espera
-
+            holder.nombreNino = (TextView) row.findViewById(R.id.texto);
+            holder.nombreApoderado = (TextView) row.findViewById(R.id.category);
+            if(data[position].status==1){
+                holder.status = row.findViewById(R.id.imageView);
+            }else if(data[position].status==2){
+                holder.status = row.findViewById(R.id.imageView);
+            }else
+                holder.status = row.findViewById(R.id.imageView);
             row.setTag(holder);
         }else {
             holder = (NinosHolder) row.getTag();
@@ -51,24 +45,15 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
         holder.foto.setImageResource(ninos.foto);
         holder.nombreNino.setText(ninos.nombreNino);
         holder.nombreApoderado.setText(ninos.nombreApoderado);
-        holder.coords.setText("("+String.valueOf(ninos.coords.latitude)+","+String.valueOf(ninos.coords.longitude)+")");
-        System.out.println("Adapter: estado["+position+"]: "+data[position].status);
-        if(data[position].status==1){
-            row.setBackgroundResource(R.color.Presente);
-        }else if(data[position].status==2){
-            row.setBackgroundResource(R.color.Ausente);
-        }else
-        {
-            row.setBackgroundResource(R.color.Pendiente);
-        }
+        holder.status.setImageResource(ninos.status);
         return row;
     }
 
     /*Holder nos ayuda a mantener los datos*/
     static class NinosHolder{
         ImageView foto;
+        ImageView status;
         TextView nombreNino;
         TextView nombreApoderado;
-        TextView coords;
     }
 }

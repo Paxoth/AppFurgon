@@ -21,7 +21,7 @@ public class Ninos {
         super();
     }
 
-    public Ninos(int foto, String nombreNino, String nombreApoderado, LatLng coords, int status){
+    public Ninos(int foto, String nombreNino, String nombreApoderado, int status){
         super();
         this.foto = foto;
         this.nombreNino = nombreNino;
