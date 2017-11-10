@@ -13,10 +13,10 @@
         android:cropToPadding="false"
         android:maxHeight="35dp"
         android:maxWidth="74dp"
-        android:src="@drawable/nina1" />
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/category"
+        android:id="@+id/nombreNino"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imageView"
@@ -27,7 +27,7 @@
         android:textSize="21sp" />
 
     <TextView
-        android:id="@+id/texto"
+        android:id="@+id/nombreApoderado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -38,6 +38,13 @@
         android:text="Apoderado"
         android:textSize="19sp" />
 
+    <TextView
+        android:id="@+id/coords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Coordenadas"
+        android:visibility="gone"/>
+
     <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView"
         android:layout_width="50dp"
@@ -45,7 +52,7 @@
         android:layout_alignBottom="@+id/texto"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="22dp"
-        app:srcCompat="@drawable/naranjo" />
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
 
 
