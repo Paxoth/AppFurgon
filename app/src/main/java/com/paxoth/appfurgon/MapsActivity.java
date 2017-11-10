@@ -124,13 +124,10 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         //colegio
         rutas.add(new LatLng(-33.426552, -70.714080));
         System.out.println("valor: "+ rutas.size());
-
-
-
-
     }
     public void rutaMapa(int posicionInicial, int posicionFinal){
-
+        /*posicionInicial: referencia a donde parte un recorrido
+        * posicionFinal: referencia a donde termina un recorrido*/
         MarkerPoints.clear();
         mMap.clear();
 
@@ -186,10 +183,11 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
 
 
     }
-    //rellenar el arreglo en un estado incial
-    //1-> recogido
-    //2-> ausente
-    //3-> en espera
+    /*rellenar el arreglo en un estado incial
+    1-> Niño Recogido
+    2-> Niño que no asistirá
+    3-> Niño en espera
+    */
     public void rellenoInicialEstados(){
         for(int i= 0 ; i<20; i++ ){
             estados.add(3);
@@ -207,7 +205,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//Initialize Google Play Services
+        //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -222,7 +220,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         }
         // Add a marker in Sydney and move the camera
 
-// Setting onclick event listener for the map
+        // Setting onclick event listener for the map
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -240,44 +238,27 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
                 {
                     estados.set(rutaInicial-1,1);
                 }
-
-
-                for (int j = 0; j< estados.size();j++){
-
-                    System.out.println("Map: estado["+Integer.toString(j)+"]:"+estados.get(j));
-                }
-
                 rutaMapa(rutaInicial,rutaFinal);
-
             }
         });
-
-
     }
     private String getUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-
         // Destination of route
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-
-
         // Sensor enabled
         String sensor = "sensor=false";
-
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + sensor;
-
         // Output format
         String output = "json";
-
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
-
-
         return url;
     }
+
     /**
      * A method to download json data from url
      */
@@ -290,26 +271,19 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
 
             // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
-
             // Connecting to url
             urlConnection.connect();
-
             // Reading data from url
             iStream = urlConnection.getInputStream();
-
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
             StringBuffer sb = new StringBuffer();
-
             String line = "";
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-
             data = sb.toString();
             Log.d("downloadUrl", data.toString());
             br.close();
-
         } catch (Exception e) {
             Log.d("Exception", e.toString());
         } finally {
@@ -341,9 +315,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
             ParserTask parserTask = new ParserTask();
-
             // Invokes the thread for parsing the JSON data
             parserTask.execute(result);
 
@@ -454,22 +426,12 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
-
-       /* Location target = new Location("target");
-        for(LatLng point : rutas) {
-            target.setLatitude(point.latitude);
-            target.setLongitude(point.longitude);
-            if(location.distanceTo(target) < METERS_100) {
-                // bingo!
-            }
-        }*/
         mLastLocation = location;
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
 
-        //Place current location marker
-        //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        //Marcando los puntos de inicio y término
         LatLng latLng = rutas.get(0);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -499,7 +461,6 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
-
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this,

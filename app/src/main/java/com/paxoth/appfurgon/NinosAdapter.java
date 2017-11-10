@@ -2,7 +2,8 @@ package com.paxoth.appfurgon;
 
 
 /**
- * Created by adrian on 08-11-17.
+ * Created by Paxoth on 08-11-17.
+ * Adapter para enviar información entre activities a la ListView de niños
  */
 import android.app.Activity;
 import android.content.Context;
