@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ChildrensActivity extends AppCompatActivity {
     /*Activity que representará la lista de niños y sus datos para ver si ya se pasó a recoger, se encuentra en espera o no asistirá*/
     ListView listaNinos;
-    ArrayList<Integer> estados = new ArrayList<Integer>();
+    ArrayList<Integer> estados = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +49,16 @@ public class ChildrensActivity extends AppCompatActivity {
                 new Ninos(R.mipmap.ic_launcher,"Niño20","Apoderado20",new LatLng(-33.425901, -70.700127),estados.get(19)),
 
         };
-        listaNinos = (ListView) findViewById(R.id.listaNinos);
+        listaNinos = findViewById(R.id.listaNinos);
         NinosAdapter adapter = new NinosAdapter(this,R.layout.listview_children_row,ninos_data);
         View header = (View) getLayoutInflater().inflate(R.layout.listview_childrens_header_row,null);
         listaNinos.addHeaderView(header);
         listaNinos.setAdapter(adapter);
         int a = listaNinos.getScrollBarSize();
-        System.out.println("HOLII:"+a);
         listaNinos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView coords = (TextView)view.findViewById(R.id.coords);
+                TextView coords = view.findViewById(R.id.coords);
                 Toast.makeText(ChildrensActivity.this, "Coordenada: "+coords.getText(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -1,14 +1,11 @@
 package com.paxoth.appfurgon;
 
-/**
+/*
  * Created by Paxoth on 08-11-17.
  * Clase que representa a la información de la Listview de los niños
  */
 
 import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Ninos {
     public int foto;

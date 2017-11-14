@@ -17,7 +17,6 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -30,18 +29,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,19 +44,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 public class MapsActivity  extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    List<LatLng> rutas=new ArrayList<LatLng>();
+    List<LatLng> rutas=new ArrayList<>();
     private GoogleMap mMap;
     ArrayList<LatLng> MarkerPoints;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
-    public ArrayList<Integer> estados = new ArrayList<Integer>();
+    public ArrayList<Integer> estados = new ArrayList<>();
     int rutaInicial = -1;
     int rutaFinal= 0;
 
@@ -75,7 +68,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
         rellenoInicialEstados();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +148,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
             options2.title("Colegio");
         }
 
-        /**
+        /*
          * For the start location, the color of marker is GREEN and
          * for the end location, the color of marker is RED.
          */
@@ -172,7 +165,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
 
         // Getting URL to the Google Directions API
         String url = getUrl(origin, dest);
-        Log.d("onMapClick", url.toString());
+        Log.d("onMapClick", url);
         FetchUrl FetchUrl = new FetchUrl();
 
         // Start downloading json data from Google Directions API
@@ -180,8 +173,6 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-
-
     }
     /*rellenar el arreglo en un estado incial
     1-> Niño Recogido
@@ -193,7 +184,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
             estados.add(3);
         }
     }
-    /**
+    /*
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -282,7 +273,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
                 sb.append(line);
             }
             data = sb.toString();
-            Log.d("downloadUrl", data.toString());
+            Log.d("downloadUrl", data);
             br.close();
         } catch (Exception e) {
             Log.d("Exception", e.toString());
@@ -305,7 +296,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
             try {
                 // Fetching the data from web service
                 data = downloadUrl(url[0]);
-                Log.d("Background Task data", data.toString());
+                Log.d("Background Task data", data);
             } catch (Exception e) {
                 Log.d("Background Task", e.toString());
             }
@@ -336,7 +327,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
 
             try {
                 jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserTask",jsonData[0].toString());
+                Log.d("ParserTask",jsonData[0]);
                 DataParser parser = new DataParser();
                 Log.d("ParserTask", parser.toString());
 

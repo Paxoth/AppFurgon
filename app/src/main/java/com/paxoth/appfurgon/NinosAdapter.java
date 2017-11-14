@@ -45,8 +45,7 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
         holder.foto.setImageResource(ninos.foto);
         holder.nombreNino.setText(ninos.nombreNino);
         holder.nombreApoderado.setText(ninos.nombreApoderado);
-        holder.coords.setText("("+String.valueOf(ninos.coords.latitude)+","+String.valueOf(ninos.coords.longitude)+")");
-        System.out.println("Adapter: estado["+position+"]: "+data[position].status);
+        holder.coords.setText("("+ninos.coords.latitude+","+ninos.coords.longitude+")");
         if(data[position].status==1){
             row.setBackgroundResource(R.color.Presente);
         }else if(data[position].status==2){
@@ -57,7 +56,6 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
         }
         return row;
     }
-
     /*Holder nos ayuda a mantener los datos*/
     static class NinosHolder{
         ImageView foto;
