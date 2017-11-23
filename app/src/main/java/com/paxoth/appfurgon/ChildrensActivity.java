@@ -6,7 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.support.v4.app.ActivityCompat;
+import android.content.pm.PackageManager;
 import android.widget.TextView;
+
+import android.Manifest;
+import android.net.Uri;
 import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -59,7 +64,17 @@ public class ChildrensActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView coords = view.findViewById(R.id.coords);
-                Toast.makeText(ChildrensActivity.this, "Coordenada: "+coords.getText(), Toast.LENGTH_SHORT).show();
+
+
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+
+                callIntent.setData(Uri.parse("tel: +569676660298"));
+
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    getApplicationContext().startActivity(callIntent);
+                }
+                //Toast.makeText(ChildrensActivity.this, "Coordenada: "+coords.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
