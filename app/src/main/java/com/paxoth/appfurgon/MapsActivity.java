@@ -44,6 +44,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class MapsActivity  extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -180,8 +181,44 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     3-> Niño en espera
     */
     public void rellenoInicialEstados(){
+        /*Rellena toda los estados con valores 3 que significa pendiente*/
+        int random;
+        int cont=0;
         for(int i= 0 ; i<20; i++ ){
-            estados.add(3);
+            random = new Random().nextInt(50);
+            if(random == 1){
+                estados.add(2); /*1% de probabilidad de que cada niño no asista*/
+            }
+            else{
+                estados.add(3);
+                cont++;
+            }
+        }
+        Toast.makeText(this, "¡Bienvenido! hoy debe pasar a buscar "+cont+" niños.", Toast.LENGTH_LONG).show();
+    }
+    public void cambioDeEstados(float probabilidad){
+        /*Probabilidad del 0.5% de cambiar de pendiente a ausente*/
+        int random;
+        int range;
+        if(probabilidad>100){
+            probabilidad = 100;
+            range = 1;
+        }
+        else if(probabilidad<0){
+            probabilidad = 0;
+            range = 0;
+        }
+        else{
+            range = Math.round(100/probabilidad);
+        }
+        for(int i=0; i<20; i++){
+            if(estados.get(i)==3){
+                random = new Random().nextInt(range);
+                if(random==1){
+                    estados.set(i,2);
+                    Toast.makeText(this, "Un apoderado ha indicado que no debe pasar a buscar a su hijo", Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
     /*
@@ -228,6 +265,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
                 if(rutaInicial>0)
                 {
                     estados.set(rutaInicial-1,1);
+                    cambioDeEstados(0.5f);
                 }
                 rutaMapa(rutaInicial,rutaFinal);
             }

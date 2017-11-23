@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppFurgon.iml" filepath="$PROJECT_DIR$/AppFurgon.iml" />
+      <module fileurl="file://C:\Users\Paxoth\Documents\AndroidStudioProjects\prueba\AppFurgon\AppFurgon.iml" filepath="C:\Users\Paxoth\Documents\AndroidStudioProjects\prueba\AppFurgon\AppFurgon.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Paxoth\Documents\AndroidStudioProjects\prueba\AppFurgon\app\app.iml" filepath="C:\Users\Paxoth\Documents\AndroidStudioProjects\prueba\AppFurgon\app\app.iml" />
     </modules>
   </component>
 </project>

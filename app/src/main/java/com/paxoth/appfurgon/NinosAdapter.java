@@ -44,7 +44,7 @@ public class NinosAdapter extends ArrayAdapter<Ninos> {
         Ninos ninos = data[position];
         holder.foto.setImageResource(ninos.foto);
         holder.nombreNino.setText(ninos.nombreNino);
-        holder.nombreApoderado.setText(ninos.nombreApoderado);
+        holder.nombreApoderado.setText(ninos.padre.telefono);
         holder.coords.setText("("+ninos.coords.latitude+","+ninos.coords.longitude+")");
         if(data[position].status==1){
             row.setBackgroundResource(R.color.Presente);

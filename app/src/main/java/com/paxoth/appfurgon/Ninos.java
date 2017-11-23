@@ -10,20 +10,20 @@ import com.google.android.gms.maps.model.LatLng;
 public class Ninos {
     public int foto;
     public String nombreNino;
-    public String nombreApoderado;
     public LatLng coords;
     public int status;
+    public Apoderado padre;
 
     public Ninos(){
         super();
     }
 
-    public Ninos(int foto, String nombreNino, String nombreApoderado, LatLng coords, int status){
+    public Ninos(int foto, String nombreNino, LatLng coords, int status, Apoderado padre){
         super();
         this.foto = foto;
         this.nombreNino = nombreNino;
-        this.nombreApoderado = nombreApoderado;
         this.coords = coords;
         this.status = status;
+        this.padre = padre;
     }
 }
