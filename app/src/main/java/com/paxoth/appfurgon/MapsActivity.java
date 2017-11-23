@@ -22,6 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -61,6 +62,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     public ArrayList<Integer> estados = new ArrayList<>();
     int rutaInicial = -1;
     int rutaFinal= 0;
+    Button siguiente;
 
 
     @Override
@@ -91,6 +93,26 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
         rellenoRutas();
     }
+
+    public void siguiente(View view){
+        System.out.println("clic");
+        if(rutaFinal<rutas.size()-1) {
+            rutaInicial += 1;
+            rutaFinal += 1;
+        }else{
+
+            System.out.println("LLEGUE AL FINAL");
+        }
+
+                /*Cambiamos el estado del estudiante a recogido*/
+                if(rutaInicial>0)
+                {
+                    estados.set(rutaInicial-1,1);
+                    cambioDeEstados(1f);
+                }
+                rutaMapa(rutaInicial,rutaFinal);
+    }
+
     public void rellenoRutas(){
         //chofer
         rutas.add(new LatLng(-33.414985, -70.733097));
@@ -249,6 +271,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         // Add a marker in Sydney and move the camera
 
         // Setting onclick event listener for the map
+     /*
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -262,7 +285,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
                 }
 
                 /*Cambiamos el estado del estudiante a recogido*/
-                if(rutaInicial>0)
+                /*if(rutaInicial>0)
                 {
                     estados.set(rutaInicial-1,1);
                     cambioDeEstados(0.5f);
@@ -270,6 +293,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
                 rutaMapa(rutaInicial,rutaFinal);
             }
         });
+*/
     }
     private String getUrl(LatLng origin, LatLng dest) {
 
