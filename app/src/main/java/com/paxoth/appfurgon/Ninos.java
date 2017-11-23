@@ -26,4 +26,8 @@ public class Ninos {
         this.status = status;
         this.padre = padre;
     }
+
+    public Apoderado getPadre() {
+        return padre;
+    }
 }

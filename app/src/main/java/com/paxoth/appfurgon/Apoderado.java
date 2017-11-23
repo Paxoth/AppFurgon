@@ -15,4 +15,8 @@ public class Apoderado {
         this.nombre = nombre;
         this.telefono = telefono;
     }
+
+    public String getTelefono() {
+        return telefono;
+    }
 }

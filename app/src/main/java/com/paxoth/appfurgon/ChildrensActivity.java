@@ -1,13 +1,19 @@
 package com.paxoth.appfurgon;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import android.content.pm.PackageManager;
 import android.widget.Toast;
+
+import android.Manifest;
+import android.net.Uri;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -26,7 +32,7 @@ public class ChildrensActivity extends AppCompatActivity {
         estados = in.getIntegerArrayListExtra("status");
 
         /*Datos de los apoderados que se le asignarán a los niños*/
-        Apoderado lista_apoderado[] = new Apoderado[]{
+        final Apoderado lista_apoderado[] = new Apoderado[]{
                 new Apoderado("Apoderado1","+56998019877"),
                 new Apoderado("Apoderado2","+56987654321"),
                 new Apoderado("Apoderado3","+56995972753"),
@@ -51,7 +57,7 @@ public class ChildrensActivity extends AppCompatActivity {
         /*Generamos los datos de los niños con la información de los estados de los mapas*/
 
 
-        Ninos ninos_data[] = new Ninos[]{
+        final Ninos ninos_data[] = new Ninos[]{
                 new Ninos(R.mipmap.ic_launcher,"Niño1",new LatLng(-33.420215, -70.735511),estados.get(0),lista_apoderado[0]),
                 new Ninos(R.mipmap.ic_launcher,"Niño2",new LatLng(-33.422955, -70.738505),estados.get(1),lista_apoderado[1]),
                 new Ninos(R.mipmap.ic_launcher,"Niño3",new LatLng(-33.425498, -70.727776),estados.get(2),lista_apoderado[2]),
@@ -84,7 +90,16 @@ public class ChildrensActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView coords = view.findViewById(R.id.coords);
-                Toast.makeText(ChildrensActivity.this, "Coordenada: "+coords.getText(), Toast.LENGTH_SHORT).show();
+
+
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel: "+ninos_data[position].getPadre().getTelefono()));
+
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    getApplicationContext().startActivity(callIntent);
+                }
+                //Toast.makeText(ChildrensActivity.this, "Coordenada: "+coords.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
