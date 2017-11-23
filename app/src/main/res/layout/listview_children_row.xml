@@ -24,7 +24,7 @@
         android:layout_toEndOf="@+id/foto"
         android:text="Nombre niño"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#f65034"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="21sp" />
 
     <TextView
