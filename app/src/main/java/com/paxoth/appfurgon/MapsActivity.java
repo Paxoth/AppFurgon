@@ -63,6 +63,8 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     int rutaInicial = -1;
     int rutaFinal= 0;
     Button siguiente;
+    LatLng chofer = new LatLng(-33.414985, -70.733097);
+    LatLng colegio = new LatLng(-33.426552, -70.714080);
 
 
     @Override
@@ -95,28 +97,53 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     }
 
     public void siguiente(View view){
-        System.out.println("clic");
-        if(rutaFinal<rutas.size()-1) {
+        int saltos=1;
+        int ruta_aux;
+        if(estados.get(rutaFinal)==3){
+            System.out.println("Estado["+rutaFinal+"] == 3");
             rutaInicial += 1;
             rutaFinal += 1;
-        }else{
-
-            System.out.println("LLEGUE AL FINAL");
-        }
-
+            System.out.println("\nRUTA INICIAL: "+rutaInicial+"\nRUTA FINAL: "+rutaFinal+"\n");
+            if(rutaFinal<rutas.size()) {
+                System.out.println(rutaFinal+"<="+rutas.size());
+                saltos = 0;
                 /*Cambiamos el estado del estudiante a recogido*/
-                if(rutaInicial>0)
-                {
-                    estados.set(rutaInicial-1,1);
-                    cambioDeEstados(1f);
+                estados.set(rutaFinal-1, 1);
+                cambioDeEstados(0.9f);
+                rutaMapa(rutaInicial, rutaFinal);
+            }else{
+                estados.set(estados.size()-1, 1);
+                Toast.makeText(this, "Felicidades, has llegado a tu destino", Toast.LENGTH_LONG).show();
+            }
+        }else{
+            ruta_aux =rutaFinal;
+            while(estados.get(ruta_aux)==2){
+
+                if(ruta_aux+1<estados.size()){
+                    ruta_aux +=1;
+                    saltos+=1;
+                }else{
+                    break;
                 }
-                rutaMapa(rutaInicial,rutaFinal);
+
+            }
+            rutaInicial += 1;
+            rutaFinal += saltos;
+            if(rutaFinal<rutas.size()) {
+                System.out.println(rutaFinal+"<="+rutas.size());
+                saltos = 0;
+                /*Cambiamos el estado del estudiante a recogido*/
+                estados.set(rutaFinal-1, 1);
+                cambioDeEstados(0.9f);
+                rutaMapa(rutaInicial, rutaFinal);
+            }else{
+                estados.set(estados.size()-1, 1);
+                Toast.makeText(this, "Felicidades, has llegado a tu destino", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void rellenoRutas(){
-        //chofer
-        rutas.add(new LatLng(-33.414985, -70.733097));
-        //alumnos
         rutas.add(new LatLng(-33.420215, -70.735511));
         rutas.add(new LatLng(-33.422955, -70.738505));
         rutas.add(new LatLng(-33.425498, -70.727776));
@@ -137,8 +164,6 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         rutas.add(new LatLng(-33.427629, -70.706865));
         rutas.add(new LatLng(-33.428623, -70.703046));
         rutas.add(new LatLng(-33.425901, -70.700127));
-        //colegio
-        rutas.add(new LatLng(-33.426552, -70.714080));
         System.out.println("valor: "+ rutas.size());
     }
     public void rutaMapa(int posicionInicial, int posicionFinal){
@@ -268,32 +293,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-        // Add a marker in Sydney and move the camera
 
-        // Setting onclick event listener for the map
-     /*
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng point) {
-                if(rutaFinal<rutas.size()-1) {
-                    rutaInicial += 1;
-                    rutaFinal += 1;
-                }else{
-
-                    System.out.println("LLEGUE AL FINAL");
-                }
-
-                /*Cambiamos el estado del estudiante a recogido*/
-                /*if(rutaInicial>0)
-                {
-                    estados.set(rutaInicial-1,1);
-                    cambioDeEstados(0.5f);
-                }
-                rutaMapa(rutaInicial,rutaFinal);
-            }
-        });
-*/
     }
     private String getUrl(LatLng origin, LatLng dest) {
 
@@ -485,14 +485,14 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
         }
 
         //Marcando los puntos de inicio y término
-        LatLng latLng = rutas.get(0);
+        LatLng latLng = chofer;
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Casa chofer");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
-        LatLng latLng2 = rutas.get(rutas.size()-1);
+        LatLng latLng2 = colegio;
         MarkerOptions markerOptions2 = new MarkerOptions();
         markerOptions2.position(latLng2);
         markerOptions2.title("Colegio");
