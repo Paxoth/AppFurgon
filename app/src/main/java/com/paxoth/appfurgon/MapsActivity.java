@@ -65,6 +65,7 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     Button siguiente;
     LatLng chofer = new LatLng(-33.414985, -70.733097);
     LatLng colegio = new LatLng(-33.426552, -70.714080);
+    public boolean stateChildren = true;
 
 
     @Override
@@ -97,50 +98,55 @@ public class MapsActivity  extends FragmentActivity implements OnMapReadyCallbac
     }
 
     public void siguiente(View view){
-        int saltos=1;
-        int ruta_aux;
-        if(estados.get(rutaFinal)==3){
-            System.out.println("Estado["+rutaFinal+"] == 3");
-            rutaInicial += 1;
-            rutaFinal += 1;
-            System.out.println("\nRUTA INICIAL: "+rutaInicial+"\nRUTA FINAL: "+rutaFinal+"\n");
-            if(rutaFinal<rutas.size()) {
-                System.out.println(rutaFinal+"<="+rutas.size());
-                saltos = 0;
+        if(stateChildren){
+            int saltos=1;
+            int ruta_aux;
+            if(estados.get(rutaFinal)==3){
+                System.out.println("Estado["+rutaFinal+"] == 3");
+                rutaInicial += 1;
+                rutaFinal += 1;
+                System.out.println("\nRUTA INICIAL: "+rutaInicial+"\nRUTA FINAL: "+rutaFinal+"\n");
+                if(rutaFinal<rutas.size()) {
+                    System.out.println(rutaFinal+"<="+rutas.size());
+                    saltos = 0;
                 /*Cambiamos el estado del estudiante a recogido*/
-                estados.set(rutaFinal-1, 1);
-                cambioDeEstados(0.9f);
-                rutaMapa(rutaInicial, rutaFinal);
-            }else{
-                estados.set(estados.size()-1, 1);
-                Toast.makeText(this, "Felicidades, has llegado a tu destino", Toast.LENGTH_LONG).show();
-            }
-        }else{
-            ruta_aux =rutaFinal;
-            while(estados.get(ruta_aux)==2){
-
-                if(ruta_aux+1<estados.size()){
-                    ruta_aux +=1;
-                    saltos+=1;
+                    estados.set(rutaFinal-1, 1);
+                    cambioDeEstados(0.9f);
+                    rutaMapa(rutaInicial, rutaFinal);
                 }else{
-                    break;
+                    estados.set(estados.size()-1, 1);
+                    Toast.makeText(this, "Felicidades, has llegado a tu destino", Toast.LENGTH_LONG).show();
+                    stateChildren= false;
                 }
-
-            }
-            rutaInicial += 1;
-            rutaFinal += saltos;
-            if(rutaFinal<rutas.size()) {
-                System.out.println(rutaFinal+"<="+rutas.size());
-                saltos = 0;
-                /*Cambiamos el estado del estudiante a recogido*/
-                estados.set(rutaFinal-1, 1);
-                cambioDeEstados(0.9f);
-                rutaMapa(rutaInicial, rutaFinal);
             }else{
-                estados.set(estados.size()-1, 1);
-                Toast.makeText(this, "Felicidades, has llegado a tu destino", Toast.LENGTH_LONG).show();
+                ruta_aux =rutaFinal;
+                while(estados.get(ruta_aux)==2){
+
+                    if(ruta_aux+1<estados.size()){
+                        ruta_aux +=1;
+                        saltos+=1;
+                    }else{
+                        break;
+                    }
+
+                }
+                rutaInicial += 1;
+                rutaFinal += saltos;
+                if(rutaFinal<rutas.size()) {
+                    System.out.println(rutaFinal+"<="+rutas.size());
+                    saltos = 0;
+                /*Cambiamos el estado del estudiante a recogido*/
+                    estados.set(rutaFinal-1, 1);
+                    cambioDeEstados(0.9f);
+                    rutaMapa(rutaInicial, rutaFinal);
+                }else{
+                    estados.set(estados.size()-1, 1);
+                    Toast.makeText(this, "Felicidades, has llegado a tu destino", Toast.LENGTH_LONG).show();
+                    stateChildren= false;
+                }
             }
         }
+
     }
 
     public void rellenoRutas(){
